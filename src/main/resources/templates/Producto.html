@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Descripción de la página">
+    <link rel="stylesheet" href="../static/styleProducto.css" th:href="@{/styleProducto.css}" />
+    <!-- Otros enlaces si es necesario -->
+    <title>Detalles del Producto</title>
+</head>
+<body>
+<div class="container">
+    <h1>Detalles del Producto</h1>
+
+    <!-- Verifica si la lista de productos no está vacía -->
+    <th:block th:if="${not #lists.isEmpty(productos)}">
+        <!-- Itera sobre la lista de productos para mostrar detalles y acciones de cada uno -->
+        <div th:each="producto : ${productos}" class="productos-details">
+            <p><strong>Nombre:</strong> <span th:text="${producto.nombre}"></span></p>
+            <p><strong>Precio:</strong> <span th:text="${producto.precio}"></span></p>
+            <!-- Otros detalles del producto -->
+
+            <!-- Enlace para editar el producto -->
+            <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="editar-link">Editar</a>
+
+            <!-- Enlace para borrar el producto -->
+            <a th:href="@{/productos/borrar/{id}(id=${producto.id})}" class="borrar-link">Borrar</a>
+        </div>
+    </th:block>
+
+    <!-- Formulario para agregar un nuevo producto -->
+    <form th:action="@{/productos/agregar}" method="post" class="agregar-form">
+        <h2>Agregar Nuevo Producto</h2>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <label for="precio">Precio:</label>
+        <input type="text" id="precio" name="precio" required>
+        <!-- Otros campos del producto, si los hay -->
+        <button type="submit">Agregar Producto</button>
+    </form>
+
+    <!-- Puedes agregar enlaces de navegación o cualquier otro contenido aquí -->
+    <a th:href="@{/productos}" class="volver-link">Volver a la lista de productos</a>
+</div>
+</body>
+</html>
