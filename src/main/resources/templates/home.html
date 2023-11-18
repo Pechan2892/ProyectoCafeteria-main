@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="../static/styleHome.css" th:href="@{/styleHome.css}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Croissant+One&display=swap" rel="stylesheet">
 
     <!-- Enlace a Bootstrap -->
@@ -31,20 +29,18 @@
                     <a class="nav-link active" aria-current="page" href="#" style="margin-right: 25px;">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="margin-right: 25px;">Inventario</a>
+                    <a class="nav-link" th:href="@{/contactos}" style="margin-right: 25px;">Contactos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="margin-right: 25px;">Precios</a>
+                    <a class="nav-link" th:href="@{/productos/listar}" style="margin-right: 25px;">Productos</a>
                 </li>
+                <!-- Nuevo elemento para Facturas -->
                 <li class="nav-item">
-                    <a class="nav-link"  th:href="@{/contactos}" aria-disabled="true" style="margin-right: 25px;">Contactos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/productos}" aria-disabled="true" style="margin-right: 25px;">Productos</a>
+                    <a class="nav-link" th:href="@{/facturas}" style="margin-right: 25px;">Facturas</a>
                 </li>
             </ul>
         </div>
-        <a th:href="@{/logoutUser}" class="custom-link">Cerrar sesion</a>
+        <a th:href="@{/logoutUser}" class="custom-link">Cerrar sesión</a>
         <span th:text="${User.email}" style="margin-right: 25px;"></span>
     </div>
 </nav>

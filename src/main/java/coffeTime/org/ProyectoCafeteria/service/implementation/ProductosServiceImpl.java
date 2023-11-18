@@ -1,52 +1,60 @@
 package coffeTime.org.ProyectoCafeteria.service.implementation;
 
+import coffeTime.org.ProyectoCafeteria.dao.Dto.ProductoDto;
 import coffeTime.org.ProyectoCafeteria.dao.entity.Productos;
 import coffeTime.org.ProyectoCafeteria.repository.ProductoRepository;
 import coffeTime.org.ProyectoCafeteria.service.Interface.ProductosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import java.io.IOException;
+
 
 @Service
 public class ProductosServiceImpl implements ProductosService {
 
     @Autowired
-    private ProductoRepository productoRepository;
+    private ProductoRepository repositorioProductos;
 
     @Override
-    public List<Productos> obtenerTodosLosProductos() {
-        return productoRepository.findAll();
+    public Page<Productos> obtenerTodosLosProductos(Pageable pageable) {
+        return repositorioProductos.findAll(pageable);
     }
 
     @Override
     public Productos obtenerProductoPorId(Long id) {
-        return productoRepository.findById(id).orElse(null);
+        return repositorioProductos.findById(id).orElse(null);
     }
 
     @Override
-    public void agregarProducto(Productos nuevoProducto) {
-        productoRepository.save(nuevoProducto);
+    public Productos guardarProducto(ProductoDto productoDto) throws IOException {
+        Productos productos = new Productos(
+                productoDto.getNombre(),
+                productoDto.getPrecio()
+        );
+        byte [] imagen=productoDto.getImagenFile().getBytes();
+        productos.setImagen(imagen);
+        return repositorioProductos.save(productos);
     }
 
     @Override
-    public void editarProducto(Long id, Productos productoEditado) {
-        // Verificar si el producto existe antes de editarlo
-        Productos productoExistente = productoRepository.findById(id).orElse(null);
-        if (productoExistente != null) {
-            productoEditado.setId(id);
-            productoRepository.save(productoEditado);
+    public Productos actualizarProducto(Long id,ProductoDto productoDto) throws IOException {
+        Productos productoExistente=repositorioProductos.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        productoExistente.setNombre(productoDto.getNombre());
+        productoExistente.setPrecio(productoDto.getPrecio());
+        if (productoDto.getImagenFile() != null && productoDto.getImagenFile().getSize() > 0) {
+            byte[] nuevaImagen = productoDto.getImagenFile().getBytes();
+            productoExistente.setImagen(nuevaImagen);
         }
+        return  repositorioProductos.save(productoExistente);
     }
 
     @Override
-    public void borrarProducto(Long id) {
-        productoRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Productos> obtenerProductosDestacados() {
-        // Puedes implementar la lógica para obtener productos destacados según tus criterios
-        return productoRepository.findFirst4ByOrderByPrecioAsc();
+    public void borrarProducto(Productos productos) {
+        repositorioProductos.delete(productos);
     }
 }

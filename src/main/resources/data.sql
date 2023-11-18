@@ -45,4 +45,9 @@ INSERT INTO contactos (nombre, email, celular, fecha_nacimiento, usuario_id) VAL
 ('Contacto3-7', 'contacto3_7@example.com', '34567890', '1996-07-07', 3),
 ('Contacto3-8', 'contacto3_8@example.com', '45678901', '1997-08-08', 3);
 
+--Productos_Sistema
+INSERT INTO productos (create_at, precio, nombre) VALUES
+('2023-11-14', 15.20, 'Cafe Juan Valdez'),
+('2022-12-16', 30.50, 'Bolsa Cafe Canela'),
+('2023-05-13', 10.25, 'Bolsa Cafe Puro Colombiano');
 

@@ -63,6 +63,7 @@ public class ContactoController {
             model.addAttribute("contacto", contacto);
             return "formContacto";
         }
+        contacto.asignarFechaRegistro();
 
         contacto.setUsuario(usuario);
         serviciosContactos.guardarContacto(contacto);
@@ -80,14 +81,15 @@ public class ContactoController {
     public String mostrarFormularioEditarContacto(@PathVariable Long id, Model model, HttpServletRequest request) {
         Usuario usuario = obtenerUsuarioDesdeSesion(request);
         if (usuario == null) {
-            return "redirect:/Titulo";
+            return "redirect:/home";
         }
 
         Contacto contacto = serviciosContactos.obtenerContactoPorId(id);
-        if (contacto == null || !contacto.getUsuario().equals(usuario)) {
+        //error
+        /*if (contacto == null || !contacto.getUsuario().equals(usuario)) {
             // Manejar el caso en que el contacto no pertenezca al usuario
             return "redirect:/contactos";
-        }
+        }*/
 
         model.addAttribute("contacto", contacto);
         model.addAttribute("Titulo", "Editar Contacto");
@@ -117,7 +119,7 @@ public class ContactoController {
 
         existingContacto.setNombre(contacto.getNombre());
         existingContacto.setCelular(contacto.getCelular());
-
+        existingContacto.asignarFechaRegistro();
         serviciosContactos.actualizarContacto(existingContacto);
 
         return "redirect:/contactos";
@@ -130,9 +132,6 @@ public class ContactoController {
         serviciosContactos.borrarContacto(contacto);
         return "redirect:/contactos";
     }
-
-
-
 
 }
 

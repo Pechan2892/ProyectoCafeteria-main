@@ -1,20 +1,23 @@
 package coffeTime.org.ProyectoCafeteria.service.Interface;
 
+import coffeTime.org.ProyectoCafeteria.dao.Dto.ProductoDto;
 import coffeTime.org.ProyectoCafeteria.dao.entity.Productos;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ProductosService {
 
-    List<Productos> obtenerTodosLosProductos();
+    public Page<Productos> obtenerTodosLosProductos(Pageable pageable);
 
-    Productos obtenerProductoPorId(Long id);
+    public Productos obtenerProductoPorId(Long id);
 
-    void agregarProducto(Productos nuevoProducto);
+    public Productos guardarProducto(ProductoDto productoDto) throws IOException;
 
-    void editarProducto(Long id, Productos productoEditado);
+    public Productos actualizarProducto(Long id,ProductoDto productoEditado) throws IOException;
 
-    void borrarProducto(Long id);
+    public void borrarProducto(Productos productos);
 
-    List<Productos> obtenerProductosDestacados();
 }
